@@ -18,8 +18,8 @@ class HomePageTest(TestCase):
         response = home_page(request)
         expected_html = render_to_string('home.html', request = request)
         self.assertEqual(
-            self.__remove_csrf_line(response.content.decode()),
-            self.__remove_csrf_line(expected_html)
+            self.remove_csrf_line(response.content.decode()),
+            self.remove_csrf_line(expected_html)
         )
 
     def test_home_page_can_save_a_POST_request(self):
@@ -36,11 +36,11 @@ class HomePageTest(TestCase):
             request = request
         )
         self.assertEqual(
-            self.__remove_csrf_line(response.content.decode()),
-            self.__remove_csrf_line(expected_html)
+            self.remove_csrf_line(response.content.decode()),
+            self.remove_csrf_line(expected_html)
         )
         
-    def __remove_csrf_line(self, rawText):
+    def remove_csrf_line(self, rawText):
         textLines = rawText.splitlines()
         result = ""
         for line in textLines:
@@ -50,3 +50,4 @@ class HomePageTest(TestCase):
                 result += line
                 result += '\n'
         return result
+    
