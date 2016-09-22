@@ -5,6 +5,8 @@ from django.test import TestCase
 
 from lists.views import home_page
 from lists.models import Item
+from django.template.context_processors import request
+from pip._vendor.requests.models import Response
 
 
 # Create your tests here.
@@ -30,16 +32,19 @@ class HomePageTest(TestCase):
         
         response = home_page(request)
         
-        self.assertIn('A new list item', response.content.decode())
-        expected_html = render_to_string(
-            "home.html", 
-            {'new_item_text': 'A new list item'},
-            request = request
-        )
-        self.assertEqual(
-            self.remove_csrf_line(response.content.decode()),
-            self.remove_csrf_line(expected_html)
-        )
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'A new list item')
+    
+    def test_home_page_redirects_after_POST(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['item_text'] = 'A new list item'
+        
+        response = home_page(request)
+        
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
         
     def remove_csrf_line(self, rawText):
         textLines = rawText.splitlines()
@@ -51,6 +56,22 @@ class HomePageTest(TestCase):
                 result += line
                 result += '\n'
         return result
+    
+    def test_home_page_only_saves_items_when_necessary(self):
+        request = HttpRequest()
+        home_page(request)
+        self.assertEqual(Item.objects.count(), 0)
+        
+    def test_home_page_display_all_items(self):
+        Item.objects.create(text = 'itemey 1')
+        Item.objects.create(text = 'itemey 2')
+        
+        request = HttpRequest()
+        response = home_page(request)
+        
+        self.assertIn('itemey 1', response.content.decode())
+        self.assertIn('itemey 2', response.content.decode())
+        
 
 class ItemModelTest(TestCase):
     def test_saving_and_retrieving_items(self):
