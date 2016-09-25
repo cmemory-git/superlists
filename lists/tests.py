@@ -5,8 +5,6 @@ from django.test import TestCase
 
 from lists.views import home_page
 from lists.models import Item
-from django.template.context_processors import request
-from pip._vendor.requests.models import Response
 
 
 # Create your tests here.

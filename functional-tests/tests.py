@@ -1,14 +1,12 @@
-import os
 import unittest
 import time
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+from django.test import LiveServerTestCase
 
-os.environ['SELENIUM_SERVER_JAR'] = '/Users/changyi/projects/eclipse-workspace/superlists/support/selenium-server-standalone-3.0.0-beta2.jar'
-
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     
     def setUp(self):
         self.browser = webdriver.Safari()
@@ -19,7 +17,7 @@ class NewVisitorTest(unittest.TestCase):
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Edith has heard about a cool online to-do app. She goes
         # to check out its homepage
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         
         # She notices the page title and header mention to-do lists 
         self.assertIn('To-Do', self.browser.title)
@@ -38,8 +36,8 @@ class NewVisitorTest(unittest.TestCase):
         # "1: Buy peacock feathers" as an item in to-do List
         inputbox.send_keys(Keys.ENTER)
         
-        time.sleep(1)
-        self.check_for_row_in_list_table('1: Buy peacock feathers')
+        time.sleep(5)
+        self.check_for_row_in_list_table('1. Buy peacock feathers')
         
         # There is still a text box inviting her to add another item. She
         # enters "Use peacock features to make a fly" (Edith is very methodical)
@@ -48,9 +46,9 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
         
         # The page updates again, and now shows both items on her list.
-        time.sleep(1)
-        self.check_for_row_in_list_table('1: Buy peacock feathers')
-        self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
+        time.sleep(5)
+        self.check_for_row_in_list_table('1. Buy peacock feathers')
+        self.check_for_row_in_list_table('2. Use peacock feathers to make a fly')
         
         # Edith wonders if the site will remember her list. Then she sees
         # that the site has generated a unique URL for her -- there is some
@@ -65,6 +63,3 @@ class NewVisitorTest(unittest.TestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
-        
-if __name__ == '__main__':
-    unittest.main() 
