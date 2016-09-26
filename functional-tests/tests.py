@@ -37,7 +37,7 @@ class NewVisitorTest(LiveServerTestCase):
         # to-do List table
         inputbox.send_keys(Keys.ENTER)
         
-        time.sleep(5)
+        time.sleep(8)
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
         self.check_for_row_in_list_table('1. Buy peacock feathers')
@@ -49,7 +49,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
         
         # The page updates again, and now shows both items on her list.
-        time.sleep(5)
+        time.sleep(8)
         self.check_for_row_in_list_table('1. Buy peacock feathers')
         self.check_for_row_in_list_table('2. Use peacock feathers to make a fly')
         
