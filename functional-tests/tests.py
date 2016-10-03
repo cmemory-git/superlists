@@ -14,14 +14,17 @@ class NewVisitorTest(StaticLiveServerTestCase):
         for arg in sys.argv:
             if 'liveserver' in arg:
                 cls.server_url = 'http://' + arg.split('=')[1]
-                return
-        super().setUpClass()
-        cls.server_url = cls.live_server_url
+                cls.is_live_server_test = True
+                break
+        else:
+            cls.is_live_server_test = False
+            super(NewVisitorTest, cls).setUpClass()
+            cls.server_url = cls.live_server_url
         
     @classmethod
     def tearDownClass(cls):
-        if cls.server_url == cls.live_server_url:
-            super().tearDownClass()
+        if not cls.is_live_server_test:
+            super(NewVisitorTest, cls).tearDownClass()
     
     def setUp(self):
         self.browser = webdriver.Safari()
