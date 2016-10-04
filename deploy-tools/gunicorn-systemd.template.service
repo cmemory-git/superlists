@@ -1,0 +1,19 @@
+[Unit]
+Description=Gunicorn server for SITENAME
+After=network.target
+Restart=on-failure
+
+[Service]
+PIDFile=/run/gunicorn/pid
+User=cmemory
+WorkingDirectory=/home/cmemory/sites/SITENAME/source
+ExecStart=/home/cmemory/sites/SITENAME/virtualenv/bin/gunicorn \
+     --pid /run/gunicorn/pid \
+     --bind unix:/tmp/SITENAME.socket \
+     superlists.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
