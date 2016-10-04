@@ -1,0 +1,8 @@
+[Unit]
+Description=Gunicorn socket for superlists.cmemory.cloudapp.net.socket
+
+[Socket]
+ListenStream=/tmp/SITENAME.socket
+
+[Install]
+WantedBy=sockets.target

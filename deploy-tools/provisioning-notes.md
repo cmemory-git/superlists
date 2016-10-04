@@ -21,7 +21,7 @@ eg, on Ubuntu (16 or higher):
 
 ## Systemd Unit (default service manager by Ubuntu 16 or higher)
 
-* see gunicorn.systemd.template.service
+* see gunicorn.systemd.template.service, gunicorn.systemd.template.socket
 * replace SITENAME with, eg, staging.my-domain.com
 
 ## Folder structure:

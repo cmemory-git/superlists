@@ -9,7 +9,6 @@ User=cmemory
 WorkingDirectory=/home/cmemory/sites/SITENAME/source
 ExecStart=/home/cmemory/sites/SITENAME/virtualenv/bin/gunicorn \
      --pid /run/gunicorn/pid \
-     --bind unix:/tmp/SITENAME.socket \
      superlists.wsgi:application
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
