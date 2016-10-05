@@ -1,14 +1,16 @@
 [Unit]
 Description=Gunicorn server for SITENAME
 After=network.target
-Restart=on-failure
 
 [Service]
-PIDFile=/run/gunicorn/pid
+Restart=on-failure
 User=cmemory
+Group=cmemory
+RuntimeDirectory=gunicorn
 WorkingDirectory=/home/cmemory/sites/SITENAME/source
+PIDFile=/var/run/gunicorn/pid
 ExecStart=/home/cmemory/sites/SITENAME/virtualenv/bin/gunicorn \
-     --pid /run/gunicorn/pid \
+     --pid /var/run/gunicorn/pid \
      superlists.wsgi:application
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
