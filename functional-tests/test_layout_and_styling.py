@@ -1,5 +1,3 @@
-import time
-
 from .base import FunctionalTest
 
 
@@ -17,6 +15,5 @@ class LayoutAndStylingTest(FunctionalTest):
         # She starts a new list and sees the input is nicely
         # centered here too
         inputbox.send_keys('testing\n')
-        time.sleep(8)
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=5)

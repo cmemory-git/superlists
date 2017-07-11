@@ -3,7 +3,6 @@ import sys
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 
-
 class FunctionalTest(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
@@ -23,7 +22,7 @@ class FunctionalTest(StaticLiveServerTestCase):
             super(FunctionalTest, cls).tearDownClass()
     
     def setUp(self):
-        self.browser = webdriver.Safari()
+        self.browser = webdriver.Chrome()
     
     def tearDown(self):
         self.browser.quit()

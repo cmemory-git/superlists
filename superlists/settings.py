@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '63@wv=hn@4hog70!2ri+4djy$s0@(=&km!gph=ou&t2h_3y2yb'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['superlists-staging.cmemory.sap.com']
 
 
 # Application definition
@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'django101',
         'USER': 'django',
         'PASSWORD': 'Django#101',
-        'HOST': 'cmemory.cloudapp.net',
+        'HOST': '192.168.56.2',
         'PORT': '3306'
     }
 }
