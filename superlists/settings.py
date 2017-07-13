@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '63@wv=hn@4hog70!2ri+4djy$s0@(=&km!gph=ou&t2h_3y2yb'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['superlists-staging.cmemory.sap.com']
+ALLOWED_HOSTS = ['localhost','superlists-staging.cmemory.sap.com']
 
 
 # Application definition
@@ -123,4 +123,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../static'))
+STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../static/'))
