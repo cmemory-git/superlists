@@ -2,14 +2,16 @@ from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.test import TestCase
+from django.utils.html import escape
 
 from lists.views import home_page
 from lists.models import Item, List
-from django.utils.html import escape
+from lists.forms import ItemForm
 
 
 # Create your tests here.
 class HomePageTest(TestCase):
+    maxDiff = None
     
     def test_root_url_resolves_to_home_page_view(self):
         found = resolve("/")
@@ -18,17 +20,17 @@ class HomePageTest(TestCase):
     def test_home_page_returns_correct_html(self):
         request = HttpRequest()
         response = home_page(request)
-        expected_html = render_to_string('home.html', request = request)
-        self.assertEqual(
+        expected_html = render_to_string('home.html', {'form': ItemForm()})
+        self.assertMultiLineEqual(
             self.remove_csrf_line(response.content.decode()),
-            self.remove_csrf_line(expected_html)
+            expected_html
         )
         
     def remove_csrf_line(self, rawText):
         textLines = rawText.splitlines()
         result = ""
         for line in textLines:
-            if ('name=\'csrfmiddlewaretoken\'' in line):
+            if ("name='csrfmiddlewaretoken'" in line):
                 continue
             else:
                 result += line
@@ -40,6 +42,13 @@ class HomePageTest(TestCase):
         home_page(request)
         self.assertEqual(Item.objects.count(), 0)
 
+    def test_home_page_renders_home_template(self):
+        response = self.client.get('/')
+        self.assertTemplateUsed(response, 'home.html')
+    
+    def test_home_page_uses_item_form(self):
+        response = self.client.get('/')
+        self.assertIsInstance(response.context['form'], ItemForm)
 class ListViewTest(TestCase):
     
     def test_displays_only_items_for_that_list(self):
