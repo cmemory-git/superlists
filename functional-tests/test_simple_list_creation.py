@@ -19,7 +19,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('To-Do', header_text)
         
         # She is invited to enter a to-do item right away
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to-do item')
         
         # She enters "Buy peacock feathers" into a text box (Edith's hobby
@@ -31,21 +31,20 @@ class NewVisitorTest(FunctionalTest):
         # to-do List table
         inputbox.send_keys(Keys.ENTER)
         
-        time.sleep(8)
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
-        self.check_for_row_in_list_table('1. Buy peacock feathers')
+        self.check_for_row_in_list_table('1: Buy peacock feathers')
         
         # There is still a text box inviting her to add another item. She
         # enters "Use peacock features to make a fly" (Edith is very methodical)
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
         
         # The page updates again, and now shows both items on her list.
-        time.sleep(8)
-        self.check_for_row_in_list_table('1. Buy peacock feathers')
-        self.check_for_row_in_list_table('2. Use peacock feathers to make a fly')
+        time.sleep(1)
+        self.check_for_row_in_list_table('1: Buy peacock feathers')
+        self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
         
         #Now a new user, Francis, comes along to the site.
         
@@ -63,7 +62,7 @@ class NewVisitorTest(FunctionalTest):
         
         # Francis starts a new list by entering a new item. He
         # is less interesting than Edith...
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
         

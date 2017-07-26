@@ -25,7 +25,7 @@ SECRET_KEY = '63@wv=hn@4hog70!2ri+4djy$s0@(=&km!gph=ou&t2h_3y2yb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','superlists-staging.cmemory.sap.com']
 
 
 # Application definition
@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'django101',
         'USER': 'django',
         'PASSWORD': 'Django#101',
-        'HOST': 'cmemory.cloudapp.net',
+        'HOST': '192.168.56.2',
         'PORT': '3306'
     }
 }
@@ -123,4 +123,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../static'))
+STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../static/'))
